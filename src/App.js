@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormularioCadastro from "./components/FormularioCadastro/FormularioCadastro.jsx"
 import './App.css';
 import { Container, Typography} from "@material-ui/core"
-import "fontsource-roboto"
+import 'fontsource-roboto'
 class App extends Component {
   render (){
    return(
