@@ -2,28 +2,26 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button'
 import { TextField ,Container, Checkbox,FormControlLabel} from "@material-ui/core"
 
-function FormularioCadastro(){
+function FormularioCadastro({onSubmit}){
     
     const [nome,setNome] = useState("")
     const [sobrenome,setSobrenome] = useState("")
-
+    const [cpf,setCpf] = useState("")
+    const [promocoes,setPromocoes] = useState(true)
+    const [newsletter,setNewsletter] = useState(true)
+    const [erros, setErros] = useState({cpf:{valido:true, texto:""}})
     return(
     <form onSubmit={(event) =>{
         event.preventDefault()
-        console.log(nome,sobrenome)
-    }
-    }>
+        onSubmit({nome,sobrenome,cpf,promocoes,newsletter})
+    }}
+    >
 
             <TextField 
                 value={nome}
 
                 onChange={(event) => {
-                    let tmpNome = event.target.value
-                    if(tmpNome.length >= 3){
-                        tmpNome = tmpNome.substr(0,3)
-                     }
-                    setNome(tmpNome)
-                    
+                    setNome(event.target.value)
                 }}
                 id="nome" 
                 label="Nome"
@@ -36,11 +34,7 @@ function FormularioCadastro(){
             <TextField
                  value={sobrenome}
                  onChange={(event) => {
-                    let tmpSobrenome = event.target.value
-                    if(tmpSobrenome.length >= 3){
-                        tmpSobrenome = tmpSobrenome.substr(0,3)
-                     }
-                     setSobrenome(tmpSobrenome)
+                     setSobrenome(event.target.value)
 
                  }}
                 id="sobrenome" 
@@ -51,6 +45,12 @@ function FormularioCadastro(){
             />
 
             <TextField 
+                value={cpf}
+                onChange={(event) => {
+                    setCpf(event.target.value)
+                }}
+                error={!erros.cpf.valido}
+                helperText={erros.cpf.texto}
                 id="cpf" 
                 label="CPF" 
                 variant="outlined" 
@@ -58,10 +58,15 @@ function FormularioCadastro(){
                 fullWidth
             />
  
-            <FormControlLabel control={<Checkbox id="promoções" defaultChecked color="primary" />} label="Promoções" />
-            <FormControlLabel control={<Checkbox id="newsletter" defaultChecked color="primary" />} label="Newsletter" />
+            <FormControlLabel checked={promocoes} control={<Checkbox onChange={(event)=>{
+                setPromocoes(event.target.checked)
+            }} id="promoções"  color="secondary" />} label="Promoções" />
 
-            <Button type="submit" variant="contained" color="primary">Cadastro</Button>
+            <FormControlLabel checked={newsletter} control={<Checkbox onChange={(event)=>{
+                setNewsletter(event.target.checked)
+            }} id="newsletter"  color="secondary" />} label="Newsletter" />
+
+            <Button type="submit" variant="contained" color="secondary">Cadastro</Button>
 
     </form>
     )
